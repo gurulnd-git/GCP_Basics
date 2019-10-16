@@ -1,0 +1,63 @@
+// Login in as root user
+sudo su -
+// Upate Software
+apt update  /  apt-get update
+
+// Install Java 
+apt install openjdk-8-jdk openjdk-8-jre
+// Verify Java version
+java -version
+// Set ENV Variables
+cat >> /etc/environment <<EOL
+JAVA_HOME= /usr/lib/jvm/java-8-openjdk-amd64
+JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
+EOL
+
+// Install Tomcat
+wget http://apachemirror.wuchna.com/tomcat/tomcat-9/v9.0.27/bin/apache-tomcat-9.0.27.tar.gz
+tar xzf apache-tomcat-9.0.27.tar.gz
+mv apache-tomcat-9.0.27 /usr/local/apache-tomcat9
+// Set ENV Variables
+echo "export CATALINA_HOME="/usr/local/apache-tomcat9"" >> ~/.bashrc
+source ~/.bashrc
+// Starting Tomcat Server
+cd /usr/local/apache-tomcat9
+chmod +x ./bin/startup.sh
+./bin/startup.sh
+
+// Install Lynx Browser 
+apt-get install lynx
+// Testing Tomcat
+lynx http://localhost:8080
+
+// Install Maven
+cd /usr/local
+wget http://www-eu.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.tar.gz
+tar xzf apache-maven-3.6.2-bin.tar.gz
+ln -s apache-maven-3.6.2 apache-maven
+// Configure maven
+vi /etc/profile.d/apache-maven.sh
+export M2_HOME=/usr/local/apache-maven
+export MAVEN_HOME=/usr/local/apache-maven
+export PATH=${M2_HOME}/bin:${PATH}
+// :q :w :x 
+source /etc/profile.d/apache-maven.sh
+// Verify
+mvn -version
+
+// Install Git
+apt install git-all
+
+// Clone Spring Boot App
+git clone https://github.com/gurulnd-git/gae-standard-example.git
+./mvnw clean install
+cd target/
+mv demo-0.0.1-SNAPSHOT.war /usr/local/apache-tomcat9/webapps
+cd /usr/local/apache-tomcat9/bin
+./catalina.sh jpda start
+
+// Test App inside VM
+lynx http://localhost:8080/demo-0.0.1-SNAPSHOT
+
+
+
