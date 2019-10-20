@@ -23,6 +23,11 @@ JAVA_HOME= /usr/lib/jvm/java-8-openjdk-amd64
 JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
 EOL
 
+(or)
+
+echo JAVA_HOME= /usr/lib/jvm/java-8-openjdk-amd64
+echo JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
+
 // Install Tomcat
 wget http://apachemirror.wuchna.com/tomcat/tomcat-9/v9.0.27/bin/apache-tomcat-9.0.27.tar.gz
 tar xzf apache-tomcat-9.0.27.tar.gz
