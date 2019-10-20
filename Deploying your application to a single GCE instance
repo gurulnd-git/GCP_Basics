@@ -1,0 +1,64 @@
+gcloud compute instances create demo-instance \
+--image-family debian-9 \
+--image-project debian-cloud \
+--machine-type g1-small \
+--scopes "userinfo-email,cloud-platform" \
+--metadata BUCKET=demo-01 \
+--zone us-east1-b \
+--tags http-server
+--allow tcp:80     // this is default default firewall rules "default-allow-http" and "default-allow-https" to allow traffic on port 80 and 443.
+// Optional script -- refer below section : Create a startup script
+--metadata-from-file startup-script=instance-startup.sh \
+
+gcloud compute firewall-rules create default-allow-http-8080 \
+    --allow tcp:8080 \
+    --source-ranges 0.0.0.0/0 \
+    --target-tags http-server \
+    --description "Allow port 8080 access to http-server"
+
+apt install git
+git clone https://github.com/gurulnd-git/gae-standard-example.git
+cd ./mvnw -DskipTests spring-boot:run
+./mvnw -DskipTests spring-boot:run
+
+(or use startup script)
+
+// Before start up script - Upload a prod jar to cloud storage
+gsutil cp build/libs/* gs://demo-01/demo.jar
+
+
+// Create a startup script
+
+#!/bin/sh
+
+# Set the metadata server to the get projct id
+PROJECTID=$(curl -s "http://metadata.google.internal/computeMetadata/v1/project/project-id" -H "Metadata-Flavor: Google")
+BUCKET=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/attributes/BUCKET" -H "Metadata-Flavor: Google")
+
+echo "Project ID: ${PROJECTID} Bucket: ${BUCKET}"
+
+# Get the files we need
+gsutil cp gs://${BUCKET}/demo.jar .
+
+# Install dependencies
+apt-get update
+apt-get -y --force-yes install openjdk-8-jdk
+
+# Make Java 8 default
+update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+
+# Start server
+java -jar demo.jar
+
+
+
+
+
+
+
+
+
+
+
+https://cloud.google.com/community/tutorials/kotlin-springboot-compute-engine
+
