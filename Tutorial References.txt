@@ -4,5 +4,14 @@ https://cloud.google.com/solutions/setup-mysql
 https://cloud.google.com/compute/docs/tutorials/globally-autoscaling-a-web-service-on-compute-engine
 https://cloud.google.com/compute/docs/tutorials/high-availability-autohealing
 
+
 REF : https://github.com/GoogleCloudPlatform/java-docs-samples.git     
 
+// Storage
+https://cloud.google.com/storage/docs/hosting-static-website 
+https://cloud.google.com/storage/docs/access-control/
+https://cloud.google.com/storage/docs/best-practices
+
+
+// Security
+https://cloud.google.com/security/encryption-at-rest/customer-supplied-encryption-keys/
