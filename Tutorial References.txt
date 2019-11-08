@@ -1,0 +1,7 @@
+https://cloud.google.com/compute/docs/tutorials/basic-webserver-apache
+https://cloud.google.com/solutions/setup-mysql
+https://cloud.google.com/compute/docs/tutorials/globally-autoscaling-a-web-service-on-compute-engine
+https://cloud.google.com/compute/docs/tutorials/high-availability-autohealing
+
+REF : https://github.com/GoogleCloudPlatform/java-docs-samples.git     
+
